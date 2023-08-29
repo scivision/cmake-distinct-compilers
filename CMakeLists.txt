@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.21)
+
+project(project LANGUAGES C CXX)
+
+include(ExternalProject)
+
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR} CACHE PATH "install prefix" FORCE)
+endif()
+
+add_subdirectory(subproject01)
+
+ExternalProject_Add(sp2
+SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/subproject02
+CMAKE_ARGS -DCMAKE_CXX_COMPILER=clang -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+CONFIGURE_HANDLED_BY_BUILD true
+)
+
+file(GENERATE OUTPUT .gitignore CONTENT "*")
